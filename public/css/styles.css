@@ -1,21 +1,22 @@
 
 img {
-  width: 100%;
+  width: 670px;
   position: relative;
 }
 
 #controller {
-  width: 100%;
+  width: 700px;
 }
 
 #up {
   float: right;
   position: fixed;
-  top: 34.5%;
-  left: 17.5%;
-  background-color: rgba(255, 0, 0, 0);
-  width: 5%;
-  height: 10%;
+  top: 104px;
+  left: 120px;
+  /*background-color: rgba(255, 0, 0, 0);*/
+  background-color: red;
+  width: 35px;
+  height: 35px;
   display: block;
   z-index:3;
 }
@@ -23,11 +24,12 @@ img {
 #down {
   float: right;
   position: fixed;
-  top: 60.5%;
-  left: 17.5%;
-  background-color: rgba(255, 0, 0, 0);
-  width: 5%;
-  height: 10%;
+  top: 182px;
+  left: 120px;
+  /*background-color: rgba(255, 0, 0, 0);*/
+  background-color: red;
+  width: 35px;
+  height: 35px;
   display: block;
   z-index:3;
 }
@@ -35,11 +37,12 @@ img {
 #left {
   float: right;
   position: fixed;
-  top: 48%;
-  left: 12%;
-  background-color: rgba(255, 0, 0, 0);
-  width: 5%;
-  height: 10%;
+  top: 143px;
+  left: 82px;
+  /*background-color: rgba(255, 0, 0, 0);*/
+  background-color: red;
+  width: 35px;
+  height: 35px;
   display: block;
   z-index:3;
 }
@@ -47,11 +50,12 @@ img {
 #right {
   float: right;
   position: fixed;
-  top: 48%;
-  left: 23.3%;
-  background-color: rgba(255, 0, 0, 0);
-  width: 5%;
-  height: 10%;
+  top: 143px;
+  left: 160px;
+  /*background-color: rgba(255, 0, 0, 0);*/
+  background-color: red;
+  width: 35px;
+  height: 35px;
   display: block;
   z-index:3;
 }
@@ -59,11 +63,12 @@ img {
 #green {
   float: right;
   position: fixed;
-  top: 43.5%;
-  right: 26.3%;
-  background-color: rgba(255, 0, 0, 0);
-  width: 7%;
-  height: 15%;
+  top: 134px;
+  left: 460px;
+  /*background-color: rgba(255, 0, 0, 0);*/
+  background-color: red;
+  width: 46px;
+  height: 46px;
   display: block;
   z-index:3;
   border-radius: 50%;
@@ -72,11 +77,12 @@ img {
 #blue {
   float: right;
   position: fixed;
-  top: 26%;
-  right: 18%;
-  background-color: rgba(255, 0, 0, 0);
-  width: 7%;
-  height: 15%;
+  top: 79px;
+  left: 513px;
+  /*background-color: rgba(255, 0, 0, 0);*/
+  background-color: red;
+  width: 46px;
+  height: 46px;
   display: block;
   z-index:3;
   border-radius: 50%;
@@ -85,11 +91,12 @@ img {
 #red {
   float: right;
   position: fixed;
-  top: 46%;
-  right: 8.7%;
-  background-color: rgba(255, 0, 0, 0);
-  width: 7%;
-  height: 15%;
+  top: 140px;
+  left: 580px;
+  /*background-color: rgba(255, 0, 0, 0);*/
+  background-color: red;
+  width: 46px;
+  height: 46px;
   display: block;
   z-index:3;
   border-radius: 50%;
@@ -98,11 +105,12 @@ img {
 #yellow {
   float: right;
   position: fixed;
-  top: 64%;
-  right: 16.6%;
-  background-color: rgba(255, 0, 0, 0);
-  width: 7%;
-  height: 15%;
+  top: 194px;
+  left: 524px;
+  /*background-color: rgba(255, 0, 0, 0);*/
+  background-color: red;
+  width: 46px;
+  height: 46px;
   display: block;
   z-index:3;
   border-radius: 50%;

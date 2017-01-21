@@ -8,6 +8,8 @@ app.use('/controller', controller);
 
 
 wss.on('connection', ((ws) => {
+  console.log(ws);
+
   ws.on('message', (message) => {
     controlHandler(message);
   });
