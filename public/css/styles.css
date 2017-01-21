@@ -1,0 +1,117 @@
+
+img {
+  width: 100%;
+  position: relative;
+}
+
+#controller {
+  width: 100%;
+}
+
+#up {
+  float: right;
+  position: fixed;
+  top: 34.5%;
+  left: 17.5%;
+  background-color: red;
+  width: 5%;
+  height: 10%;
+  display: block;
+  z-index:3;
+}
+
+#down {
+  float: right;
+  position: fixed;
+  top: 60.5%;
+  left: 17.5%;
+  background-color: red;
+  width: 5%;
+  height: 10%;
+  display: block;
+  z-index:3;
+}
+
+#left {
+  float: right;
+  position: fixed;
+  top: 48%;
+  left: 12%;
+  background-color: red;
+  width: 5%;
+  height: 10%;
+  display: block;
+  z-index:3;
+}
+
+#right {
+  float: right;
+  position: fixed;
+  top: 48%;
+  left: 23.3%;
+  background-color: red;
+  width: 5%;
+  height: 10%;
+  display: block;
+  z-index:3;
+}
+
+#green {
+  float: right;
+  position: fixed;
+  top: 43.5%;
+  right: 26.3%;
+  background-color: green;
+  width: 7%;
+  height: 15%;
+  display: block;
+  z-index:3;
+  border-radius: 50%;
+}
+
+#blue {
+  float: right;
+  position: fixed;
+  top: 26%;
+  right: 18%;
+  background-color: blue;
+  width: 7%;
+  height: 15%;
+  display: block;
+  z-index:3;
+  border-radius: 50%;
+}
+
+#red {
+  float: right;
+  position: fixed;
+  top: 46%;
+  right: 8.7%;
+  background-color: red;
+  width: 7%;
+  height: 15%;
+  display: block;
+  z-index:3;
+  border-radius: 50%;
+}
+
+#yellow {
+  float: right;
+  position: fixed;
+  top: 64%;
+  right: 16.6%;
+  background-color: yellow;
+  width: 7%;
+  height: 15%;
+  display: block;
+  z-index:3;
+  border-radius: 50%;
+}
+
+/*@media only screen
+and (min-device-width : 375px)
+and (max-device-width : 667px) {
+  #controller {
+  width: 00px;
+  }
+}*/

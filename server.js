@@ -46,8 +46,6 @@ wss.on('connection', ((ws) => {
   ws.on('end', () => {
     console.log('Connection ended...');
   });
-
-  ws.send('Hello Client');
 }));
 
 module.exports = app;
