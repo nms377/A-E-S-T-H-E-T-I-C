@@ -1,0 +1,27 @@
+{
+  "name": "A-E-S-T-H-E-T-I-C",
+  "version": "1.0.0",
+  "description": "Robot Dolphin Attack w/ lazer beams attached to their friggin' heads",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nms377/A-E-S-T-H-E-T-I-C.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nms377/A-E-S-T-H-E-T-I-C/issues"
+  },
+  "homepage": "https://github.com/nms377/A-E-S-T-H-E-T-I-C#readme",
+  "dependencies": {
+    "express": "^4.14.0",
+    "socket.io": "^1.7.2",
+    "websocketserver": "^1.0.0",
+    "ws": "^1.1.1"
+  }
+}
