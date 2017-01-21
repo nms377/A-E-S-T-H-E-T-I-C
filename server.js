@@ -6,9 +6,7 @@ const wss = new WebSocketServer({ port: 8081 });
 
 app.use('/controller', controller);
 
-
 wss.on('connection', ((ws) => {
-  console.log(ws);
 
   ws.on('message', (message) => {
     controlHandler(message);
