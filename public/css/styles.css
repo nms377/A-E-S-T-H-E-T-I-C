@@ -13,7 +13,7 @@ img {
   position: fixed;
   top: 34.5%;
   left: 17.5%;
-  background-color: red;
+  background-color: rgba(255, 0, 0, 0);
   width: 5%;
   height: 10%;
   display: block;
@@ -25,7 +25,7 @@ img {
   position: fixed;
   top: 60.5%;
   left: 17.5%;
-  background-color: red;
+  background-color: rgba(255, 0, 0, 0);
   width: 5%;
   height: 10%;
   display: block;
@@ -37,7 +37,7 @@ img {
   position: fixed;
   top: 48%;
   left: 12%;
-  background-color: red;
+  background-color: rgba(255, 0, 0, 0);
   width: 5%;
   height: 10%;
   display: block;
@@ -49,7 +49,7 @@ img {
   position: fixed;
   top: 48%;
   left: 23.3%;
-  background-color: red;
+  background-color: rgba(255, 0, 0, 0);
   width: 5%;
   height: 10%;
   display: block;
@@ -61,7 +61,7 @@ img {
   position: fixed;
   top: 43.5%;
   right: 26.3%;
-  background-color: green;
+  background-color: rgba(255, 0, 0, 0);
   width: 7%;
   height: 15%;
   display: block;
@@ -74,7 +74,7 @@ img {
   position: fixed;
   top: 26%;
   right: 18%;
-  background-color: blue;
+  background-color: rgba(255, 0, 0, 0);
   width: 7%;
   height: 15%;
   display: block;
@@ -87,7 +87,7 @@ img {
   position: fixed;
   top: 46%;
   right: 8.7%;
-  background-color: red;
+  background-color: rgba(255, 0, 0, 0);
   width: 7%;
   height: 15%;
   display: block;
@@ -100,7 +100,7 @@ img {
   position: fixed;
   top: 64%;
   right: 16.6%;
-  background-color: yellow;
+  background-color: rgba(255, 0, 0, 0);
   width: 7%;
   height: 15%;
   display: block;

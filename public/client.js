@@ -19,6 +19,38 @@ ws.onclose = function() {
   console.log("Connection is closed...");
 }
 
-const send = () => {
-  ws.send('hello')
+const btnClicked = (btn) => {
+  switch(btn) {
+    case 'up':
+    ws.send('up')
+    break;
+
+    case 'down':
+    ws.send('down')
+    break;
+
+    case 'right':
+    ws.send('right')
+    break;
+
+    case 'left':
+    ws.send('left')
+    break;
+
+    case 'blue':
+    ws.send('blue')
+    break;
+
+    case 'red':
+    ws.send('red')
+    break;
+
+    case 'yellow':
+    ws.send('yellow')
+    break;
+
+    case 'green':
+    ws.send('green')
+    break;
+  }
 }
