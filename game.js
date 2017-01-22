@@ -12,9 +12,10 @@
     var platforms;
     var startCamera = false;
     const WORLD_SIZE = 5000;
-    const NUMBER_OF_OBSTACLES = 30;
+    const NUMBER_OF_OBSTACLES = 14;
     const NUMBER_OF_ENEMIES = 30;
     let playerBullets;
+    let player2Bullets;
     var greenEnemies;
 
     const preload = _ => {
@@ -22,10 +23,9 @@
         game.load.image('player', 'public/assets/blue_dolphin.png')
         game.load.image('player2', 'public/assets/pink_dolphin.png')
         game.load.image('platform', 'public/assets/roman_column_length_small.png');
-        game.load.image('bullets', 'public/assets/roman_column_length_small.png');
-        game.load.image('enemy-green', 'public/assets/roman_column_length_small.png');
+        game.load.image('bullets', 'public/assets/windows_logo.png');
+        game.load.image('enemy-green', 'public/assets/baddie_one.png');
     };
-
 
     const create = _ => {
         game.world.resize(WORLD_SIZE, 600);
@@ -42,18 +42,21 @@
 
         // create obstacles
         platforms = game.add.physicsGroup();
-        generateObstacles();
+        for (i = 0; i < NUMBER_OF_OBSTACLES; i++) {
+            platforms.create(randomFix(game.world.randomX), game.world.randomY, 'platform');
+        }
+        platforms.setAll('body.immovable', true);
 
         // create bullets
         game.physics.startSystem(Phaser.Physics.ARCADE);
         playerBullets = game.add.group();
+        player2Bullets = game.add.group();
 
         // create baddies
         greenEnemies = game.add.group();
         greenEnemies.enableBody = true;
         greenEnemies.physicsBodyType = Phaser.Physics.ARCADE;
         greenEnemies.create(game.world.randomX, game.world.randomY, 'enemy-green');
-        //greenEnemies.createMultiple(25, 'enemy-green');
         greenEnemies.setAll('anchor.x', 0.5);
         greenEnemies.setAll('anchor.y', 0.5);
         greenEnemies.setAll('outOfBoundsKill', true);
@@ -142,22 +145,35 @@
         
         handleBulletAnimations();
         handleBulletCollisions();
+        handlePlayerFire();
 
     };
 
     function launchGreenEnemy() {
         for (i = 0; i < NUMBER_OF_ENEMIES; i++) {
-            greenEnemies.create(randomFix(game.world.randomX), game.world.randomY, 'enemy-green');
+            greenEnemies.create(game.world.randomX, game.world.randomY, 'enemy-green');
         };
+    };
+
+    const handlePlayerFire = _ => {
+        if (player.shoot) {
+            playerBullets.add(game.add.sprite(player.x, player.y, bullets, 7));
+        }
+        if (player2.shoot) {
+            player2Bullets.add(game.add.sprite(player2.x, player2.y, bullets, 7));
+        }
     };
 
     const handleBulletAnimations = _ => {
         playerBullets.children.forEach(bullet => bullet.x += PLAYER_BULLET_SPEED);
+        player2Bullets.children.forEach(bullet => bullet.x += PLAYER_BULLET_SPEED);
     };
 
     function handleBulletCollisions() {
         let enemiesHit = greenEnemies.children.filter(enemy => playerBullets.children.some(bullet => bullet.overlap(enemy)));
         enemiesHit.forEach(enemy => enemy.destroy());
+        let enemies2Hit = greenEnemies.children.filter(enemy => player2Bullets.children.some(bullet => bullet.overlap(enemy)));
+        enemies2Hit.forEach(enemy => enemy.destroy());
     };
 
     function generateObstacles() {
