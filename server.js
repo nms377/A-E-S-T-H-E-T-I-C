@@ -1,52 +1,89 @@
 const express = require('express');
 const app = express();
-const controller = require('./routes/controller');
-// // const { Server : WebSocketServer } = require('ws');
-// // const server = require('http').createServer();
-// // const wss = new WebSocketServer({ server });
-
-// const WebSocketServer = require('ws').Server
-// const wss = new WebSocketServer({ port: 3000 });
-
-app.use('/controller', controller);
-
-// app.get('/', function(req, res){
-//   res.sendFile(__dirname + '/index.html');
-// });
-
-// wss.on('connection', ((ws) => {
-//   ws.on('message', (message) => {
-//     console.log(`received: ${message}`);
-//   });
-
-//   ws.on('end', () => {
-//     console.log('Connection ended...');
-//   });
-
-//   ws.send('Hello Client');
-// }));
-
-// // server.on('request', app);
-// // server.listen(3000, function(){
-// //   console.log('listening on *:3000');
-// // });
-
-
-
-'use strict';
-
 const WebSocketServer = require('ws').Server
-const wss = new WebSocketServer({ port: 8081 });
+// const wss = new WebSocketServer({ port: 8081 });
+const players = require('./players.js')
+const MOVE_SPEED = 100;
+const server = require('http').createServer();
+const wss = new WebSocketServer({ server });
+const PORT = 8081;
+
+app.use(express.static('./public'));
+
+// app.set('view engine', '.hbs');
+
+// app.engine('.hbs', exphbs({
+//   extname:'.hbs',
+//   defaultLayout:'main',
+// }))
+
+// let players = []
+// let id = 0;
+
+const addPlayer = (ws) => {
+  let newPlayer = {
+      id: id,
+      ws: ws,
+      x: 0,
+      y: 0
+    }
+  players.push(newPlayer);
+  id++
+}
 
 wss.on('connection', ((ws) => {
+  let len = players.getLength();
+
+  // if(len === 4) {
+  //   ws.send('sorry too many players');
+  // } else {
+    players.addPlayer(ws);
+  // }
+
   ws.on('message', (message) => {
-    console.log(`received: ${message}`);
+    let player = players.getPlayer(ws);
+    controlHandler(player, message);
   });
 
   ws.on('end', () => {
     console.log('Connection ended...');
   });
-
 }));
+
+const controlHandler = (player, msg) => {
+  console.log(`player ${player.id} pressed: ${msg}`);
+  switch(msg) {
+    case 'up':
+    player.y -= MOVE_SPEED;
+    break;
+
+    case 'down':
+    player.y += MOVE_SPEED;
+    break;
+
+    case 'left':
+    player.x -= MOVE_SPEED;
+    break;
+
+    case 'right':
+    player.x += MOVE_SPEED;
+    break;
+
+    case 'green':
+    player.shoot = true;
+    break;
+
+    case 'red':
+    player.speed = true;
+    break;
+  }
+  console.log('x', player.x, 'y', player.y);
+
+}
+
+server.on('request', app);
+server.listen(PORT, _ =>
+  console.log('Server Listening on ' + server.address().port)
+);
 
 module.exports = app;
