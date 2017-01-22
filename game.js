@@ -11,17 +11,24 @@
     var player2;
     var platforms;
     var startCamera = false;
+    const WORLD_SIZE = 5000;
+    const NUMBER_OF_OBSTACLES = 30;
+    const NUMBER_OF_ENEMIES = 30;
+    let playerBullets;
+    var greenEnemies;
 
     const preload = _ => {
         game.stage.backgroundColor = '#85b5e1';
         game.load.image('player', 'public/assets/blue_dolphin.png')
         game.load.image('player2', 'public/assets/pink_dolphin.png')
         game.load.image('platform', 'public/assets/roman_column_length_small.png');
+        game.load.image('bullets', 'public/assets/roman_column_length_small.png');
+        game.load.image('enemy-green', 'public/assets/roman_column_length_small.png');
     };
 
 
     const create = _ => {
-        game.world.resize(5000, 480);
+        game.world.resize(WORLD_SIZE, 600);
         player = game.add.sprite(200, 200, 'player');
         player2 = game.add.sprite(100, 100, 'player2');
 
@@ -33,23 +40,25 @@
         player.body.collideWorldBounds = true;
         player2.body.collideWorldBounds = true;
 
+        // create obstacles
         platforms = game.add.physicsGroup();
-        platforms.create(200, 500, 'platform');
-        // platforms.create(-200, 300, 'platform');
-        platforms.create(400, 450, 'platform');
-        for (i = 0; i < 14; i++) {
-          platforms.create(game.world.randomX, game.world.randomY, 'platform');
-        }
-        platforms.setAll('body.immovable', true);
+        generateObstacles();
 
+        // create bullets
+        game.physics.startSystem(Phaser.Physics.ARCADE);
+        playerBullets = game.add.group();
 
-        //   Usually you'd provide a callback to the `game.physics.arcade.collide` function,
-        //   which is passed the two sprites involved in the collision, which you can then
-        //   perform further processing on. However you can also use this signal:
-        // player.body.onCollide = new Phaser.Signal();
-        // player.body.onCollide.add(hitSprite, this);
-        // player2.body.onCollide = new Phaser.Signal();
-        // player2.body.onCollide.add(hitSprite, this);
+        // create baddies
+        greenEnemies = game.add.group();
+        greenEnemies.enableBody = true;
+        greenEnemies.physicsBodyType = Phaser.Physics.ARCADE;
+        greenEnemies.create(game.world.randomX, game.world.randomY, 'enemy-green');
+        //greenEnemies.createMultiple(25, 'enemy-green');
+        greenEnemies.setAll('anchor.x', 0.5);
+        greenEnemies.setAll('anchor.y', 0.5);
+        greenEnemies.setAll('outOfBoundsKill', true);
+        greenEnemies.setAll('checkWorldBounds', true);
+        launchGreenEnemy();
 
     };
 
@@ -128,10 +137,44 @@
         game.physics.arcade.collide(player2, platforms);
 
         if(startCamera) {
-          game.camera.x += 2;
+            game.camera.x += 2;
         }
+        
+        handleBulletAnimations();
+        handleBulletCollisions();
 
+    };
 
+    function launchGreenEnemy() {
+        for (i = 0; i < NUMBER_OF_ENEMIES; i++) {
+            greenEnemies.create(randomFix(game.world.randomX), game.world.randomY, 'enemy-green');
+        };
+    };
+
+    const handleBulletAnimations = _ => {
+        playerBullets.children.forEach(bullet => bullet.x += PLAYER_BULLET_SPEED);
+    };
+
+    function handleBulletCollisions() {
+        let enemiesHit = greenEnemies.children.filter(enemy => playerBullets.children.some(bullet => bullet.overlap(enemy)));
+        enemiesHit.forEach(enemy => enemy.destroy());
+    };
+
+    function generateObstacles() {
+        platforms = game.add.group();
+        platforms.enableBody = true;
+
+        for (i = 0; i < NUMBER_OF_OBSTACLES ; i++) {
+            platforms.create(randomFix(game.world.randomX), game.world.randomY, 'platform');
+        };
+        platforms.setAll('body.immovable', true);
+
+    };
+
+    // don't spawn anything for first 500 pixels
+    function randomFix(randomX) {
+        if (randomX < 500) return randomX + 500;
+        else return randomX;
     };
 
     const game = new Phaser.Game(GAME_WIDTH, GAME_HEIGHT, Phaser.AUTO, GAME_CONTAINER_ID, { preload, create, update });
