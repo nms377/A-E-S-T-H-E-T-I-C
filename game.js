@@ -1,7 +1,6 @@
 
-//jshint esversion:6
-
 (Phaser => {
+
     const GAME_WIDTH = 1000;
     const GAME_HEIGHT = 600;
     const GAME_CONTAINER_ID = 'game';
@@ -11,39 +10,32 @@
     var cameraSpeed = 3;
     var i = 0;
     var player;
+    var player2;
     var platforms;
-    var cursors;
-    var jumpButton;
 
 
     const preload = _ => {
-        //game.load.spritesheet(GFX, 'assets/spritesheet.png', 28, 28);
 
-        // temeplate preload code
         game.stage.backgroundColor = '#85b5e1';
         game.load.baseURL = 'http://examples.phaser.io/assets/';
         game.load.crossOrigin = 'anonymous';
         game.load.image('player', 'sprites/phaser-dude.png');
         game.load.image('platform', 'sprites/platform.png');
-
-        // end template code
     };
 
 
     const create = _ => {
-        // resize world
         game.world.resize(5000, 480);
 
-
-
-
-        // template create code
-
         player = game.add.sprite(200, 200, 'player');
+        player2 = game.add.sprite(100, 100, 'player');
 
         game.physics.arcade.enable(player);
+        game.physics.arcade.enable(player2);
 
         player.body.collideWorldBounds = true;
+        player2.body.collideWorldBounds = true;
+
         // player.body.gravity.y = 500;
 
         platforms = game.add.physicsGroup();
@@ -60,10 +52,6 @@
         }
 
         platforms.setAll('body.immovable', true);
-
-        cursors = game.input.keyboard.createCursorKeys();
-        cursors.fire = game.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
-        jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         // end template code
 
         //the camera will follow the player in the world
@@ -74,11 +62,12 @@
         //   perform further processing on. However you can also use this signal:
         player.body.onCollide = new Phaser.Signal();
         player.body.onCollide.add(hitSprite, this);
+        player2.body.onCollide = new Phaser.Signal();
+        player2.body.onCollide.add(hitSprite, this);
 
     };
 
-    function hitSprite(sprite1, sprite2)
-    {
+    function hitSprite(sprite1, sprite2) {
         sprite1.angle += 5;
     }
 
@@ -92,58 +81,78 @@
       console.log('err: ', err);
     }
 
-    ws.onmessage = function (msg) {
-      console.log(msg.data);
-      if(msg.data === 'right') {
-        player.body.velocity.x += movespeed
-      }
-    };
-
     ws.onclose = function() {
       console.log("Connection is closed...");
     }
 
     const update = _ => {
-      ws.onmessage = function (msg) {
+      ws.onmessage = function (message) {
+        console.log(message.data);
 
-        switch(msg.data) {
-          case 'up':
+        switch(message.data) {
+          case 'player1 up':
           player.body.velocity.y -= movespeed
           break;
 
-          case 'down':
+          case 'player1 down':
           player.body.velocity.y += movespeed
           break;
 
-          case 'left':
+          case 'player1 left':
           player.body.velocity.x -= movespeed
           break;
 
-          case 'right':
+          case 'player1 right':
           player.body.velocity.x += movespeed
           break;
 
-          case 'green':
+          case 'player1 green':
           player.shoot = true;
           break;
 
-          case 'red':
+          case 'player1 red':
           player.speed = true;
+          break;
+
+           case 'player2 up':
+          player2.body.velocity.y -= movespeed
+          break;
+
+          case 'player2 down':
+          player2.body.velocity.y += movespeed
+          break;
+
+          case 'player2 left':
+          player2.body.velocity.x -= movespeed
+          break;
+
+          case 'player2 right':
+          player2.body.velocity.x += movespeed
+          break;
+
+          case 'player2 green':
+          player2.shoot = true;
+          break;
+
+          case 'player2 red':
+          player2.speed = true;
           break;
         }
 
       };
 
         game.physics.arcade.collide(player, platforms);
-        game.camera.x += 1;
+        game.physics.arcade.collide(player2, platforms);
+
+        game.camera.x += 0;
 
         player.body.velocity.x = 0;
         player.body.velocity.y = 0;
+        player2.body.velocity.x = 0;
+        player2.body.velocity.y = 0;
     };
 
-    // game.state.add('Game', PhaserGame, true);
-    // reference for game instantiated here
     const game = new Phaser.Game(GAME_WIDTH, GAME_HEIGHT, Phaser.AUTO, GAME_CONTAINER_ID, { preload, create, update });
 
 
-})(window.Phaser, window.sendMess);
+})(window.Phaser);

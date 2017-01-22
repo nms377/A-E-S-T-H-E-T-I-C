@@ -16,7 +16,6 @@ wss.on('connection', ((ws) => {
 
   if(players.size === 0) {
     players.set('monitor', ws);
-    console.log(players);
   } else {
     playerId = `player${id}`;
   }
@@ -43,8 +42,10 @@ wss.on('connection', ((ws) => {
   });
 
   const controlHandler = (player, msg) => {
+
   let monitor = players.get('monitor')
-  monitor.send(msg)
+  let message = `player${player.id} ${msg}`;
+  monitor.send(message)
 }
 
   ws.on('end', () => {
