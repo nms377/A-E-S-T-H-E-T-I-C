@@ -20,10 +20,12 @@
     const PLAYER_BULLET_SPEED = 17;
     var laserSound;
     var baddieSound;
+    var music1;
+    var music2;
     var greenTea;
 
     // keyboard debug
-    //var cursors;
+    var cursors;
 
     const preload = _ => {
         game.stage.backgroundColor = '#85b5e1';
@@ -35,12 +37,16 @@
         game.load.image('greenTea', 'public/assets/green_tea.png');
         game.load.audio('laserSound', 'public/assets/Microsoft Windows XP Shutdown Sound.mp3');
         game.load.audio('baddieSound', 'public/assets/vaporsplosion.mp3');
+        game.load.audio('music1', 'public/assets/vaporwave_song.mp3');
+        game.load.audio('music2', 'public/assets/aesthetic_final.mp3');
     };
 
     const create = _ => {
         game.world.resize(WORLD_SIZE, 600);
         player = game.add.sprite(200, 200, 'player');
+        player.angle += 30;
         player2 = game.add.sprite(100, 100, 'player2');
+        player2.angle += 30;
 
         game.physics.startSystem(Phaser.Physics.ARCADE);
         game.physics.arcade.enable(player, Phaser.Physics.ARCADE);
@@ -53,6 +59,9 @@
         // create soundfx
         laserSound = game.add.audio('laserSound');
         baddieSound = game.add.audio('baddieSound');
+        music1 = game.add.audio('music2');
+        music1.volume = 0.7;
+        music1.play();
 
         // create obstacles
         platforms = game.add.physicsGroup();
@@ -189,10 +198,10 @@
     };
 
     // keyboard debug
-    //const handleCursorFire = _ => {
-    //    laserSound.play();
-    //    playerBullets.add(game.add.sprite(player.x, player.y, 'bullets', 7));
-    //};
+    const handleCursorFire = _ => {
+        laserSound.play();
+        playerBullets.add(game.add.sprite(player.x, player.y, 'bullets', 7));
+    };
 
     const handlePlayerFire = _ => {
         if (player.shoot) {
