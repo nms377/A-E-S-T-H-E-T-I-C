@@ -9,10 +9,17 @@ const PORT = 8081;
 app.use(express.static('./public'));
 
 let players = new Map();
-let id = 1;
+let id = 0;
 
 wss.on('connection', ((ws) => {
-  let playerId = `player${id}`;
+  let playerId = null;
+
+  if(players.size === 0) {
+    players.set('monitor', ws);
+    console.log(players);
+  } else {
+    playerId = `player${id}`;
+  }
 
   let playerInfo = {
     id: id,
@@ -25,53 +32,52 @@ wss.on('connection', ((ws) => {
 
   players.set(playerId, playerInfo);
   id++
-  console.log(players);
 
   ws.on('message', (message) => {
 
     players.forEach((player, playerInfo, map) => {
-      console.log(player);
       if(player.ws === ws) {
         controlHandler(player, message);
       }
     })
   });
 
+  const controlHandler = (player, msg) => {
+  console.log(`player ${player.id} pressed: ${msg}`);
+  // switch(msg) {
+  //   case 'up':
+  //   player.y -= MOVE_SPEED;
+  //   break;
+
+  //   case 'down':
+  //   player.y += MOVE_SPEED;
+  //   break;
+
+  //   case 'left':
+  //   player.x -= MOVE_SPEED;
+  //   break;
+
+  //   case 'right':
+  //   player.x += MOVE_SPEED;
+  //   break;
+
+  //   case 'green':
+  //   player.shoot = true;
+  //   break;
+
+  //   case 'red':
+  //   player.speed = true;
+  //   break;
+  // }
+  console.log('x', player.x, 'y', player.y);
+  let monitor = players.get('monitor')
+  monitor.send(msg)
+}
+
   ws.on('end', () => {
     console.log('Connection ended...');
   });
 }));
-
-const controlHandler = (player, msg) => {
-  console.log(`player ${player.id} pressed: ${msg}`);
-  switch(msg) {
-    case 'up':
-    player.y -= MOVE_SPEED;
-    break;
-
-    case 'down':
-    player.y += MOVE_SPEED;
-    break;
-
-    case 'left':
-    player.x -= MOVE_SPEED;
-    break;
-
-    case 'right':
-    player.x += MOVE_SPEED;
-    break;
-
-    case 'green':
-    player.shoot = true;
-    break;
-
-    case 'red':
-    player.speed = true;
-    break;
-  }
-  console.log('x', player.x, 'y', player.y);
-
-}
 
 server.on('request', app);
 server.listen(PORT, _ =>

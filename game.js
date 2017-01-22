@@ -1,16 +1,17 @@
-(Phaser => {
+((Phaser, sendMess) => {
     const GAME_WIDTH = 1000;
     const GAME_HEIGHT = 600;
     const GAME_CONTAINER_ID = 'game';
     const GFX = 'gfx';
     //const INITIAL_MOVESPEED = 4;
-    var movespeed = 500;
+    var movespeed = 2000;
     var cameraSpeed = 3;
     var i = 0;
     var player;
     var platforms;
     var cursors;
     var jumpButton;
+
 
     const preload = _ => {
         //game.load.spritesheet(GFX, 'assets/spritesheet.png', 28, 28);
@@ -31,7 +32,7 @@
 
         // template create code
 
-        player = game.add.sprite(100, 200, 'player');
+        player = game.add.sprite(200, 200, 'player');
 
         game.physics.arcade.enable(player);
 
@@ -74,34 +75,63 @@
         sprite1.angle += 5;
     }
 
-    const update = _ => {
-        // template update code
-        game.physics.arcade.collide(player, platforms);
+    var ws = new WebSocket("ws://10.0.1.94:8081");
 
-        game.camera.x += cameraSpeed;
+    ws.onopen = function (event) {
+      console.log('Connection is open ...');
+    };
+
+    ws.onerror = function (err) {
+      console.log('err: ', err);
+    }
+
+    ws.onmessage = function (msg) {
+      console.log(msg.data);
+      if(msg.data === 'right') {
+        player.body.velocity.x += movespeed
+      }
+    };
+
+    ws.onclose = function() {
+      console.log("Connection is closed...");
+    }
+
+    const update = _ => {
+      ws.onmessage = function (msg) {
+
+        switch(msg.data) {
+          case 'up':
+          player.body.velocity.y -= movespeed
+          break;
+
+          case 'down':
+          player.body.velocity.y += movespeed
+          break;
+
+          case 'left':
+          player.body.velocity.x -= movespeed
+          break;
+
+          case 'right':
+          player.body.velocity.x += movespeed
+          break;
+
+          case 'green':
+          player.shoot = true;
+          break;
+
+          case 'red':
+          player.speed = true;
+          break;
+        }
+
+      };
+
+        game.physics.arcade.collide(player, platforms);
+        game.camera.x += 1;
 
         player.body.velocity.x = 0;
         player.body.velocity.y = 0;
-
-        if (cursors.left.isDown)
-        {
-            player.body.velocity.x = -movespeed;
-        }
-        else if (cursors.right.isDown)
-        {
-            player.body.velocity.x = movespeed;
-        }
-        else if (cursors.up.isDown)
-        {
-            player.body.velocity.y = -movespeed;
-        }
-        else if (cursors.down.isDown)
-        {
-            player.body.velocity.y = movespeed;
-        }
-        // end template code
-
-        //cleanup();
     };
 
     // game.state.add('Game', PhaserGame, true);
@@ -109,4 +139,4 @@
     const game = new Phaser.Game(GAME_WIDTH, GAME_HEIGHT, Phaser.AUTO, GAME_CONTAINER_ID, { preload, create, update });
 
 
-})(window.Phaser, window.players);
+})(window.Phaser, window.sendMess);
