@@ -25,10 +25,15 @@
         player = game.add.sprite(200, 200, 'player');
         player2 = game.add.sprite(100, 100, 'player2');
 
+        game.add.existing(player)
+        game.physics.startSystem(Phaser.Physics.ARCADE);
+        game.physics.arcade.enable(player);
+
         game.physics.startSystem(Phaser.Physics.ARCADE);
         game.physics.arcade.enable(player, Phaser.Physics.ARCADE);
         game.physics.arcade.enable(player2, Phaser.Physics.ARCADE);
         player.body.onWorldBounds = new Phaser.Signal()
+
 
         player.body.collideWorldBounds = true;
         player2.body.collideWorldBounds = true;
@@ -123,6 +128,8 @@
         }
 
       };
+
+
 
         game.physics.arcade.collide(player, platforms);
         game.physics.arcade.collide(player2, platforms);
