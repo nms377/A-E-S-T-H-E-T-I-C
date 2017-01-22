@@ -10,6 +10,13 @@ app.use('/controller', controller);
 
 app.use(express.static('./public'));
 
+// app.set('view engine', '.hbs');
+
+// app.engine('.hbs', exphbs({
+//   extname:'.hbs',
+//   defaultLayout:'main',
+// }))
+
 // let players = []
 // let id = 0;
 
@@ -31,7 +38,6 @@ wss.on('connection', ((ws) => {
     ws.send('sorry too many players');
   } else {
     players.addPlayer(ws);
-    ws.send('hello player')
   }
 
   ws.on('message', (message) => {
@@ -71,7 +77,7 @@ const controlHandler = (player, msg) => {
     player.speed = true;
     break;
   }
-  console.log(player.x, player.y);
+  console.log('x', player.x, 'y', player.y);
 
 }
 
