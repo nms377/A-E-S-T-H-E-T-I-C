@@ -5,12 +5,13 @@
     const GAME_CONTAINER_ID = 'game';
     const GFX = 'gfx';
     //const INITIAL_MOVESPEED = 4;
-    var movespeed = 2000;
-    var cameraSpeed = 3;
+    var movespeed = 250;
+    var cameraSpeed = 0;
     var i = 0;
     var player;
     var player2;
     var platforms;
+    var startCamera = false;
 
     const preload = _ => {
 
@@ -27,30 +28,22 @@
         player = game.add.sprite(200, 200, 'player');
         player2 = game.add.sprite(100, 100, 'player2');
 
+        game.physics.startSystem(Phaser.Physics.ARCADE);
         game.physics.arcade.enable(player);
         game.physics.arcade.enable(player2);
 
         player.body.collideWorldBounds = true;
         player2.body.collideWorldBounds = true;
 
-        // player.body.gravity.y = 500;
-
         platforms = game.add.physicsGroup();
-
-        // create platforms
-        platforms.create(0, 0, 'platform');
-        platforms.create(-200, 300, 'platform');
+        platforms.create(200, 500, 'platform');
+        // platforms.create(-200, 300, 'platform');
         platforms.create(400, 450, 'platform');
-        for (i = 0; i < 15; i++) {
-            platforms.create(game.world.randomX, game.world.randomY, 'platform');
-
+        for (i = 0; i < 14; i++) {
+          platforms.create(game.world.randomX, game.world.randomY, 'platform');
         }
-
         platforms.setAll('body.immovable', true);
-        // end template code
 
-        //the camera will follow the player in the world
-        //game.camera.follow(player);
 
         //   Usually you'd provide a callback to the `game.physics.arcade.collide` function,
         //   which is passed the two sprites involved in the collision, which you can then
@@ -61,10 +54,6 @@
         // player2.body.onCollide.add(hitSprite, this);
 
     };
-
-    function hitSprite(sprite1, sprite2) {
-        sprite1.angle += 5;
-    }
 
     var ws = new WebSocket("ws://10.0.1.94:8081");
 
@@ -83,6 +72,7 @@
     const update = _ => {
       ws.onmessage = function (message) {
         console.log(message.data);
+        startCamera = true;
 
         switch(message.data) {
           case 'player1 up':
@@ -98,7 +88,7 @@
           break;
 
           case 'player1 right':
-          player.body.velocity.x += movespeed
+          player.body.velocity.x = movespeed
           break;
 
           case 'player1 green':
@@ -106,7 +96,7 @@
           break;
 
           case 'player1 red':
-          player.speed = true;
+          player.body.velocity.x += 4000;
           break;
 
            case 'player2 up':
@@ -129,7 +119,7 @@
           player2.shoot = true;
           break;
 
-          case 'player2 red':
+          case 'player2 resd':
           player2.speed = true;
           break;
         }
@@ -139,12 +129,11 @@
         game.physics.arcade.collide(player, platforms);
         game.physics.arcade.collide(player2, platforms);
 
-        game.camera.x += 0;
+        if(startCamera) {
+          game.camera.x += 2;
+        }
 
-        player.body.velocity.x = 0;
-        player.body.velocity.y = 0;
-        player2.body.velocity.x = 0;
-        player2.body.velocity.y = 0;
+
     };
 
     const game = new Phaser.Game(GAME_WIDTH, GAME_HEIGHT, Phaser.AUTO, GAME_CONTAINER_ID, { preload, create, update });
