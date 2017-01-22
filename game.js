@@ -1,6 +1,5 @@
 
 (Phaser => {
-
     const GAME_WIDTH = 1000;
     const GAME_HEIGHT = 600;
     const GAME_CONTAINER_ID = 'game';
@@ -13,13 +12,14 @@
     var player2;
     var platforms;
 
-
     const preload = _ => {
 
         game.stage.backgroundColor = '#85b5e1';
         // game.load.baseURL = 'http://examples.phaser.io/assets/';
-        // game.load.crossOrigin = 'anonymous';
-        game.load.image('dolphin', 'blue-dolphin.png');
+        game.load.crossOrigin = 'anonymous';
+        // game.load.image('dolphin', 'blue-dolphin.png');
+        // game.load.image('player', 'sprites/phaser-dude.png')
+        game.load.image('player', 'public/assets/fiji_water.png')
         game.load.image('platform', 'sprites/platform.png');
     };
 
