@@ -4,7 +4,6 @@
     const GAME_HEIGHT = 600;
     const GAME_CONTAINER_ID = 'game';
     const GFX = 'gfx';
-    //const INITIAL_MOVESPEED = 4;
     var movespeed = 250;
     var cameraSpeed = 0;
     var i = 0;
@@ -14,7 +13,6 @@
     var startCamera = false;
 
     const preload = _ => {
-
         game.stage.backgroundColor = '#85b5e1';
         game.load.image('player', 'public/assets/blue_dolphin.png')
         game.load.image('player2', 'public/assets/pink_dolphin.png')
@@ -24,13 +22,13 @@
 
     const create = _ => {
         game.world.resize(5000, 480);
-
         player = game.add.sprite(200, 200, 'player');
         player2 = game.add.sprite(100, 100, 'player2');
 
         game.physics.startSystem(Phaser.Physics.ARCADE);
-        game.physics.arcade.enable(player);
-        game.physics.arcade.enable(player2);
+        game.physics.arcade.enable(player, Phaser.Physics.ARCADE);
+        game.physics.arcade.enable(player2, Phaser.Physics.ARCADE);
+        player.body.onWorldBounds = new Phaser.Signal()
 
         player.body.collideWorldBounds = true;
         player2.body.collideWorldBounds = true;
