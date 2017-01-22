@@ -9,13 +9,14 @@
     var i = 0;
     // set wrap variable
     var wrapping = true;
+    var justWrapped = false;
 
     var player;
     var platforms;
     var cursors;
     var jumpButton;
-    var widthResize = 2500;
-    var numberOfObstacles = 50;
+    var widthResize = 25000;
+    var numberOfObstacles = 500;
     var randomX;
 
     const preload = _ =>
@@ -25,7 +26,6 @@
         game.load.crossOrigin = 'anonymous';
         game.load.image('player', 'sprites/phaser-dude.png');
         game.load.image('platform', 'sprites/diamond.png');
-        game.load.image('diamond', 'sprites/diamond.png');
     };
 
     const create = _ =>
@@ -37,6 +37,10 @@
         player = game.add.sprite(201, 200, 'player');
         game.physics.arcade.enable(player);
         player.body.collideWorldBounds = true;
+
+        //kill on out of bonds
+        player.events.onOutOfBounds.add(playerOutOfBounds, this);
+        player.checkWorldBounds = true;
 
         platforms = game.add.physicsGroup();
         //game.physics.arcade.enable(platforms);
@@ -56,14 +60,9 @@
 
     };
 
-    // do this when collide happens
-    function hitSprite(sprite1, sprite2)
-    {
-        console.log("collision");
-        //sprite1.angle += 5;
-    };
 
-    const update = _ => {
+    const update = _ =>
+    {
         game.physics.arcade.collide(player, platforms);
 
         // camera is always moving forward at cameraSpeed
@@ -101,21 +100,27 @@
             platforms.destroy();
             generateObstacles();
             game.camera.x = 0;
+            justWrapped = true;
         }
-//        else if (player.x >= game .width)
+       //else if (player.x >= game .width)
         else if (player.x >= (widthResize - 200))
         {
             console.log("else if player.x =", player.x, ">=", widthResize - 200, ", wrapping=", wrapping);
             wrapping = false;
         }
-        //else
-        //{
-        //    console.log("else player.x =", player.x);
-        //}
+        else
+        {
+            //console.log("else player.x =", player.x);
+            justWrapped = false;
+        }
         //The game world is infinite in the x-direction, so we wrap around.
         //We subtract padding so the player will remain in the middle of the screen when
         //wrapping, rather than going to the end of the screen first.
         game.world.wrap(player, -200, false, true, false);
+
+        // check if out of camera bounds
+        if (!player.inWorld && !justWrapped) playerOutOfBounds(player);
+
     };
 
     function generateObstacles()
@@ -135,6 +140,7 @@
         }
         platforms.setAll('body.immovable', true);
 
+        // dont have platforms at beginning or end of area
         function randomfix(randomX)
         {
             if (randomX >= (widthResize - game.width)) return randomX - game.width;
@@ -143,8 +149,54 @@
         };
     };
 
+    // do this when player out of bounds
+    function playerOutOfBounds(player)
+    {
+        console.log("player OOB");
+        justWrapped = false;
+        player.kill();
+        game.destroy();
+    };
+
+    // do this when collide happens
+    function hitSprite(sprite1, sprite2) {
+        console.log("collision");
+        //sprite1.angle += 5;
+    };
+
     // reference for game instantiated here
     const game = new Phaser.Game(GAME_WIDTH, GAME_HEIGHT, Phaser.AUTO, GAME_CONTAINER_ID, { preload, create, update });
 
 
 })(window.Phaser);
+
+//var lilyPads;
+//// group
+//function create()
+//{
+//    lilyPads = game.add.group();
+
+//    // create in a for loop, whatever  
+//    var lily = lilyPads.create(Math.random() * game.width, Math.random() * game.height, 'lilypad', 0);
+//    lily.events.onOutOfBounds.add(lilyPadOOB, this);
+//    lily.checkWorldBounds = true;
+//}
+
+//// sprite out of boundsfunction
+//lilyPadOOB(lily)
+//{
+//    lily.kill();
+//}
+//// called when you need to spawn a recycled / new spritefunction 
+//spawnLilyPad()
+//{
+//    var lily = lilyPads.getFirstDead();
+//    if (!lily)
+//    {
+//        lily = lilyPads.create(0, 0, 'lilypad');
+//        lily.events.onOutOfBounds.add(lilyPadOOB, this);
+//        lily.checkWorldBounds = true;
+//    }
+//    lily.reset(x, y);
+//    lily.animations.frame = 0;
+//}
