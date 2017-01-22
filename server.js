@@ -1,12 +1,12 @@
 const express = require('express');
 const app = express();
-const controller = require('./routes/controller');
 const WebSocketServer = require('ws').Server
-const wss = new WebSocketServer({ port: 8081 });
+// const wss = new WebSocketServer({ port: 8081 });
 const players = require('./players.js')
 const MOVE_SPEED = 100;
-
-app.use('/controller', controller);
+const server = require('http').createServer();
+const wss = new WebSocketServer({ server });
+const PORT = 8081;
 
 app.use(express.static('./public'));
 
@@ -34,11 +34,11 @@ const addPlayer = (ws) => {
 wss.on('connection', ((ws) => {
   let len = players.getLength();
 
-  if(len === 4) {
-    ws.send('sorry too many players');
-  } else {
+  // if(len === 4) {
+  //   ws.send('sorry too many players');
+  // } else {
     players.addPlayer(ws);
-  }
+  // }
 
   ws.on('message', (message) => {
     let player = players.getPlayer(ws);
@@ -80,5 +80,10 @@ const controlHandler = (player, msg) => {
   console.log('x', player.x, 'y', player.y);
 
 }
+
+server.on('request', app);
+server.listen(PORT, _ =>
+  console.log('Server Listening on ' + server.address().port)
+);
 
 module.exports = app;
