@@ -1,100 +1,100 @@
 {"frames": [
 
 {
-  "filename": "blue_dolphin.png",
-  "frame": {"x":0,"y":750,"w":750,"h":750},
-  "rotated": false,
-  "trimmed": false,
-  "spriteSourceSize": {"x":0,"y":0,"w":750,"h":750},
-  "sourceSize": {"w":750,"h":750}
+	"filename": "blue_dolphin.png",
+	"frame": {"x":0,"y":750,"w":750,"h":750},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":750,"h":750},
+	"sourceSize": {"w":750,"h":750}
 },
 {
-  "filename": "bust_david.png",
-  "frame": {"x":1500,"y":750,"w":750,"h":750},
-  "rotated": false,
-  "trimmed": false,
-  "spriteSourceSize": {"x":0,"y":0,"w":750,"h":750},
-  "sourceSize": {"w":750,"h":750}
+	"filename": "bust_david.png",
+	"frame": {"x":1500,"y":750,"w":750,"h":750},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":750,"h":750},
+	"sourceSize": {"w":750,"h":750}
 },
 {
-  "filename": "crush_pack.png",
-  "frame": {"x":3000,"y":750,"w":750,"h":750},
-  "rotated": false,
-  "trimmed": false,
-  "spriteSourceSize": {"x":0,"y":0,"w":750,"h":750},
-  "sourceSize": {"w":750,"h":750}
+	"filename": "crush_pack.png",
+	"frame": {"x":3000,"y":750,"w":750,"h":750},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":750,"h":750},
+	"sourceSize": {"w":750,"h":750}
 },
 {
-  "filename": "fiji_water.png",
-  "frame": {"x":2250,"y":750,"w":750,"h":750},
-  "rotated": false,
-  "trimmed": false,
-  "spriteSourceSize": {"x":0,"y":0,"w":750,"h":750},
-  "sourceSize": {"w":750,"h":750}
+	"filename": "fiji_water.png",
+	"frame": {"x":2250,"y":750,"w":750,"h":750},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":750,"h":750},
+	"sourceSize": {"w":750,"h":750}
 },
 {
-  "filename": "green_dolphin.png",
-  "frame": {"x":750,"y":750,"w":750,"h":750},
-  "rotated": false,
-  "trimmed": false,
-  "spriteSourceSize": {"x":0,"y":0,"w":750,"h":750},
-  "sourceSize": {"w":750,"h":750}
+	"filename": "green_dolphin.png",
+	"frame": {"x":750,"y":750,"w":750,"h":750},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":750,"h":750},
+	"sourceSize": {"w":750,"h":750}
 },
 {
-  "filename": "green_tea.png",
-  "frame": {"x":3731,"y":0,"w":750,"h":750},
-  "rotated": false,
-  "trimmed": false,
-  "spriteSourceSize": {"x":0,"y":0,"w":750,"h":750},
-  "sourceSize": {"w":750,"h":750}
+	"filename": "green_tea.png",
+	"frame": {"x":3731,"y":0,"w":750,"h":750},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":750,"h":750},
+	"sourceSize": {"w":750,"h":750}
 },
 {
-  "filename": "orange_dolphin.png",
-  "frame": {"x":731,"y":0,"w":750,"h":750},
-  "rotated": false,
-  "trimmed": false,
-  "spriteSourceSize": {"x":0,"y":0,"w":750,"h":750},
-  "sourceSize": {"w":750,"h":750}
+	"filename": "orange_dolphin.png",
+	"frame": {"x":731,"y":0,"w":750,"h":750},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":750,"h":750},
+	"sourceSize": {"w":750,"h":750}
 },
 {
-  "filename": "palm_tree.png",
-  "frame": {"x":1481,"y":0,"w":750,"h":750},
-  "rotated": false,
-  "trimmed": false,
-  "spriteSourceSize": {"x":0,"y":0,"w":750,"h":750},
-  "sourceSize": {"w":750,"h":750}
+	"filename": "palm_tree.png",
+	"frame": {"x":1481,"y":0,"w":750,"h":750},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":750,"h":750},
+	"sourceSize": {"w":750,"h":750}
 },
 {
-  "filename": "roman_column.png",
-  "frame": {"x":2231,"y":0,"w":750,"h":750},
-  "rotated": false,
-  "trimmed": false,
-  "spriteSourceSize": {"x":0,"y":0,"w":750,"h":750},
-  "sourceSize": {"w":750,"h":750}
+	"filename": "roman_column.png",
+	"frame": {"x":2231,"y":0,"w":750,"h":750},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":750,"h":750},
+	"sourceSize": {"w":750,"h":750}
 },
 {
-  "filename": "windows_logo.png",
-  "frame": {"x":0,"y":0,"w":731,"h":640},
-  "rotated": false,
-  "trimmed": false,
-  "spriteSourceSize": {"x":0,"y":0,"w":731,"h":640},
-  "sourceSize": {"w":731,"h":640}
+	"filename": "windows_logo.png",
+	"frame": {"x":0,"y":0,"w":731,"h":640},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":731,"h":640},
+	"sourceSize": {"w":731,"h":640}
 },
 {
-  "filename": "yellow_dolphin.png",
-  "frame": {"x":2981,"y":0,"w":750,"h":750},
-  "rotated": false,
-  "trimmed": false,
-  "spriteSourceSize": {"x":0,"y":0,"w":750,"h":750},
-  "sourceSize": {"w":750,"h":750}
+	"filename": "yellow_dolphin.png",
+	"frame": {"x":2981,"y":0,"w":750,"h":750},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":750,"h":750},
+	"sourceSize": {"w":750,"h":750}
 }],
 "meta": {
-  "app": "http://www.codeandweb.com/texturepacker",
-  "version": "1.0",
-  "image": "aesthetic_sprites.png",
-  "format": "RGBA8888",
-  "size": {"w":4481,"h":1500},
-  "scale": "1",
-  "smartupdate": "$TexturePacker:SmartUpdate:e7f0d1be2c287e1dd4f4677ad1dc918e:e8f6d81326b1548924b3dc48cd2d5c80:23235ed8512df1749d12c051d9516dca$"
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "aesthetic_sprites.png",
+	"format": "RGBA8888",
+	"size": {"w":4481,"h":1500},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:e7f0d1be2c287e1dd4f4677ad1dc918e:e8f6d81326b1548924b3dc48cd2d5c80:23235ed8512df1749d12c051d9516dca$"
 }
 }
