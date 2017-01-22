@@ -1,5 +1,3 @@
-//jshint esversion:6
-
 (Phaser => {
     const GAME_WIDTH = 1000;
     const GAME_HEIGHT = 600;
@@ -9,59 +7,43 @@
     var movespeed = 500;
     var cameraSpeed = 3;
     var i = 0;
+    // set wrap variable
+    var wrapping = true;
+
     var player;
     var platforms;
     var cursors;
     var jumpButton;
+    var widthResize = 2500;
+    var numberOfObstacles = 50;
+    var randomX;
 
-    const preload = _ => {
-        //game.load.spritesheet(GFX, 'assets/spritesheet.png', 28, 28);
-
-        // temeplate preload code
+    const preload = _ =>
+    {
         game.stage.backgroundColor = '#85b5e1';
         game.load.baseURL = 'http://examples.phaser.io/assets/';
         game.load.crossOrigin = 'anonymous';
         game.load.image('player', 'sprites/phaser-dude.png');
-        game.load.image('platform', 'sprites/platform.png');
-        // end template code
+        game.load.image('platform', 'sprites/diamond.png');
+        game.load.image('diamond', 'sprites/diamond.png');
     };
 
-
-    const create = _ => {
+    const create = _ =>
+    {
         // resize world
-        game.world.resize(5000, 480);
+        game.world.resize(widthResize, 600);
+        console.log("game.width = ", game.width);
 
-        // template create code
-
-        player = game.add.sprite(100, 200, 'player');
-
+        player = game.add.sprite(201, 200, 'player');
         game.physics.arcade.enable(player);
-
         player.body.collideWorldBounds = true;
-        // player.body.gravity.y = 500;
 
         platforms = game.add.physicsGroup();
-
-        // create platforms
-        platforms.create(500, 150, 'platform');
-        platforms.create(-200, 300, 'platform');
-        platforms.create(400, 450, 'platform');
-        for (i = 0; i < 15; i++)
-        {
-            platforms.create(game.world.randomX, game.world.randomY, 'platform');
-
-            //game.add.sprite(game.world.randomX, game.world.randomY, 'player');
-        }
-
-        platforms.setAll('body.immovable', true);
+        //game.physics.arcade.enable(platforms);
+        generateObstacles();
 
         cursors = game.input.keyboard.createCursorKeys();
-        cursors.fire = game.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
-        jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         // end template code
-
-        //the camera will follow the player in the world
-        //game.camera.follow(player);
 
         //   Usually you'd provide a callback to the `game.physics.arcade.collide` function,
         //   which is passed the two sprites involved in the collision, which you can then
@@ -69,17 +51,22 @@
         player.body.onCollide = new Phaser.Signal();
         player.body.onCollide.add(hitSprite, this);
 
+        // camera will always follow player
+        //game.camera.follow(player);
+
     };
 
+    // do this when collide happens
     function hitSprite(sprite1, sprite2)
     {
-        sprite1.angle += 5;
-    }
+        console.log("collision");
+        //sprite1.angle += 5;
+    };
 
     const update = _ => {
-        // template update code
         game.physics.arcade.collide(player, platforms);
 
+        // camera is always moving forward at cameraSpeed
         game.camera.x += cameraSpeed;
 
         player.body.velocity.x = 0;
@@ -101,14 +88,63 @@
         {
             player.body.velocity.y = movespeed;
         }
-        // end template code
 
-        //cleanup();
+        //wrap god
+        //We do a little math to determine whether the game world has wrapped around.
+        //If so, we want to destroy everything and regenerate, so the game will remain random
+        if (!wrapping && player.x < game.width)
+        {
+            console.log("wrapping");
+            console.log("player.x =", player.x);
+            //We only want to destroy and regenerate once per wrap, so we test with wrapping var
+            wrapping = true;
+            platforms.destroy();
+            generateObstacles();
+            game.camera.x = 0;
+        }
+//        else if (player.x >= game .width)
+        else if (player.x >= (widthResize - 200))
+        {
+            console.log("else if player.x =", player.x, ">=", widthResize - 200, ", wrapping=", wrapping);
+            wrapping = false;
+        }
+        //else
+        //{
+        //    console.log("else player.x =", player.x);
+        //}
+        //The game world is infinite in the x-direction, so we wrap around.
+        //We subtract padding so the player will remain in the middle of the screen when
+        //wrapping, rather than going to the end of the screen first.
+        game.world.wrap(player, -200, false, true, false);
     };
 
-    // game.state.add('Game', PhaserGame, true);
+    function generateObstacles()
+    {
+        console.log("generate");
+        platforms = game.add.group();
+
+        //enable physics in them
+        platforms.enableBody = true;
+
+        // create platforms
+        for (i = 0; i < numberOfObstacles  ; i++)
+        {
+            //game.add.sprite(game.world.randomX, game.world.randomY, 'diamond');
+            //platforms.create(game.world.randomX - (game.width), game.world.randomY, 'platform');
+            platforms.create(randomfix(game.world.randomX), game.world.randomY, 'platform');
+        }
+        platforms.setAll('body.immovable', true);
+
+        function randomfix(randomX)
+        {
+            if (randomX >= (widthResize - game.width)) return randomX - game.width;
+            else if (randomX < game.width) return randomX + game.width;
+            else return randomX;
+        };
+    };
+
     // reference for game instantiated here
     const game = new Phaser.Game(GAME_WIDTH, GAME_HEIGHT, Phaser.AUTO, GAME_CONTAINER_ID, { preload, create, update });
 
 
-})(window.Phaser, window.players);
+})(window.Phaser);
