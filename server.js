@@ -1,8 +1,6 @@
 const express = require('express');
 const app = express();
 const WebSocketServer = require('ws').Server
-// const wss = new WebSocketServer({ port: 8081 });
-const players = require('./players.js')
 const MOVE_SPEED = 100;
 const server = require('http').createServer();
 const wss = new WebSocketServer({ server });
@@ -10,39 +8,33 @@ const PORT = 8081;
 
 app.use(express.static('./public'));
 
-// app.set('view engine', '.hbs');
-
-// app.engine('.hbs', exphbs({
-//   extname:'.hbs',
-//   defaultLayout:'main',
-// }))
-
-// let players = []
-// let id = 0;
-
-const addPlayer = (ws) => {
-  let newPlayer = {
-      id: id,
-      ws: ws,
-      x: 0,
-      y: 0
-    }
-  players.push(newPlayer);
-  id++
-}
+let players = new Map();
+let id = 1;
 
 wss.on('connection', ((ws) => {
-  let len = players.getLength();
+  let playerId = `player${id}`;
 
-  // if(len === 4) {
-  //   ws.send('sorry too many players');
-  // } else {
-    players.addPlayer(ws);
-  // }
+  let playerInfo = {
+    id: id,
+    ws: ws,
+    x: 0,
+    y: 0,
+    shoot: false,
+    speed: false
+  }
+
+  players.set(playerId, playerInfo);
+  id++
+  console.log(players);
 
   ws.on('message', (message) => {
-    let player = players.getPlayer(ws);
-    controlHandler(player, message);
+
+    players.forEach((player, playerInfo, map) => {
+      console.log(player);
+      if(player.ws === ws) {
+        controlHandler(player, message);
+      }
+    })
   });
 
   ws.on('end', () => {

@@ -7,7 +7,6 @@
     var movespeed = 500;
     var cameraSpeed = 3;
     var i = 0;
-
     var player;
     var platforms;
     var cursors;
@@ -110,4 +109,4 @@
     const game = new Phaser.Game(GAME_WIDTH, GAME_HEIGHT, Phaser.AUTO, GAME_CONTAINER_ID, { preload, create, update });
 
 
-})(window.Phaser);
+})(window.Phaser, window.players);
