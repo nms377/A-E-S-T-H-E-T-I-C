@@ -43,33 +43,6 @@ wss.on('connection', ((ws) => {
   });
 
   const controlHandler = (player, msg) => {
-  console.log(`player ${player.id} pressed: ${msg}`);
-  // switch(msg) {
-  //   case 'up':
-  //   player.y -= MOVE_SPEED;
-  //   break;
-
-  //   case 'down':
-  //   player.y += MOVE_SPEED;
-  //   break;
-
-  //   case 'left':
-  //   player.x -= MOVE_SPEED;
-  //   break;
-
-  //   case 'right':
-  //   player.x += MOVE_SPEED;
-  //   break;
-
-  //   case 'green':
-  //   player.shoot = true;
-  //   break;
-
-  //   case 'red':
-  //   player.speed = true;
-  //   break;
-  // }
-  console.log('x', player.x, 'y', player.y);
   let monitor = players.get('monitor')
   monitor.send(msg)
 }
