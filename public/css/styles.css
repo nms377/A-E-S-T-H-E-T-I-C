@@ -1,0 +1,28 @@
+
+#landingP {
+  background-color: #75a4de;
+  width: 1000px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  float: left;
+}
+
+h1 {
+  position: fixed;
+  top: 300px;
+  left: 220px;
+  font-size: 80px;
+  color: white;
+  font-family: helvetica;
+}
+
+img {
+  width: 700px;
+  margin-left: 110px;
+}
+
+#game {
+  visibility: hidden;
+}
+
