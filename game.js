@@ -100,7 +100,9 @@
 
     };
 
-    var ws = new WebSocket("ws://10.0.1.94:8081");
+    // var ws = new WebSocket("ws://10.0.1.94:8081");
+    var ws = new WebSocket("wss://0.tcp.ngrok.io:15639");
+
 
     ws.onopen = function (event) {
       console.log('Connection is open ...');
