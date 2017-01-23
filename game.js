@@ -4,7 +4,7 @@
     const GAME_CONTAINER_ID = 'game';
     const GFX = 'gfx';
     var movespeed = 250;
-    var cameraSpeed = 0;
+    const CAMERA_SPEED = 2;
     var i = 0;
     var player;
     var player2;
@@ -17,6 +17,14 @@
     let playerBullets;
     let player2Bullets;
     var greenEnemies;
+    var laserSound;
+    var baddieSound;
+    var music1;
+    var music2;
+    var greenTea;
+
+    // keyboard debug
+    var cursors;
 
     const preload = _ => {
         game.stage.backgroundColor = '#85b5e1';
@@ -25,12 +33,19 @@
         game.load.image('platform', 'public/assets/roman_column_length_small.png');
         game.load.image('bullets', 'public/assets/windows_logo.png');
         game.load.image('enemy-green', 'public/assets/baddie_one.png');
+        game.load.image('greenTea', 'public/assets/green_tea.png');
+        game.load.audio('laserSound', 'public/assets/Microsoft Windows XP Shutdown Sound.mp3');
+        game.load.audio('baddieSound', 'public/assets/vaporsplosion.mp3');
+        game.load.audio('music1', 'public/assets/vaporwave_song.mp3');
+        game.load.audio('music2', 'public/assets/aesthetic_final.mp3');
     };
 
     const create = _ => {
         game.world.resize(WORLD_SIZE, 600);
         player = game.add.sprite(200, 200, 'player');
+        player.angle += 30;
         player2 = game.add.sprite(100, 100, 'player2');
+        player2.angle += 30;
 
         game.physics.startSystem(Phaser.Physics.ARCADE);
         game.physics.arcade.enable(player, Phaser.Physics.ARCADE);
@@ -39,6 +54,13 @@
 
         player.body.collideWorldBounds = true;
         player2.body.collideWorldBounds = true;
+
+        // create soundfx
+        laserSound = game.add.audio('laserSound');
+        baddieSound = game.add.audio('baddieSound');
+        music1 = game.add.audio('music2');
+        music1.volume = 0.7;
+        music1.play();
 
         // create obstacles
         platforms = game.add.physicsGroup();
@@ -62,6 +84,11 @@
         greenEnemies.setAll('outOfBoundsKill', true);
         greenEnemies.setAll('checkWorldBounds', true);
         launchGreenEnemy();
+
+        // keyboard debug commands
+        //cursors = game.input.keyboard.createCursorKeys();
+        //cursors.fire = game.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
+        //cursors.fire.onUp.add(handleCursorFire);
 
     };
 
@@ -136,16 +163,30 @@
 
       };
 
+        // keyboard debug commands
+      //if (cursors.left.isDown) {
+      //    player.body.velocity.x = -movespeed;
+      //}
+      //else if (cursors.right.isDown) {
+      //    player.body.velocity.x = movespeed;
+      //}
+      //else if (cursors.up.isDown) {
+      //    player.body.velocity.y = -movespeed;
+      //}
+      //else if (cursors.down.isDown) {
+      //    player.body.velocity.y = movespeed;
+      //}
+
         game.physics.arcade.collide(player, platforms);
         game.physics.arcade.collide(player2, platforms);
 
         if(startCamera) {
-            game.camera.x += 2;
+            game.camera.x += CAMERA_SPEED;
         }
 
+        handlePlayerFire();
         handleBulletAnimations();
         handleBulletCollisions();
-        handlePlayerFire();
 
     };
 
@@ -155,12 +196,20 @@
         };
     };
 
+    // keyboard debug
+    const handleCursorFire = _ => {
+        laserSound.play();
+        playerBullets.add(game.add.sprite(player.x, player.y, 'bullets', 7));
+    };
+
     const handlePlayerFire = _ => {
         if (player.shoot) {
+            laserSound.play();
             playerBullets.add(game.add.sprite(player.x, player.y, 'bullets', 7));
             player.shoot = false;
         }
         if (player2.shoot) {
+            laserSound.play();
             player2Bullets.add(game.add.sprite(player2.x, player2.y, 'bullets', 7));
             player2.shoot = false;
         }
@@ -173,7 +222,15 @@
 
     function handleBulletCollisions() {
         let enemiesHit = greenEnemies.children.filter(enemy => playerBullets.children.some(bullet => bullet.overlap(enemy)));
-        enemiesHit.forEach(enemy => enemy.destroy());
+        enemiesHit.forEach((enemy) => {
+            if (enemy.inCamera) {
+                enemy.destroy();
+                baddieSound.play();
+                greenTea = game.add.sprite(enemy.x, enemy.y, 'greenTea');
+                game.add.tween(greenTea).to({ angle: 360 }, 500, Phaser.Easing.Linear.None, true);
+            }
+
+        });
         let enemies2Hit = greenEnemies.children.filter(enemy => player2Bullets.children.some(bullet => bullet.overlap(enemy)));
         enemies2Hit.forEach(enemy => enemy.destroy());
     };
