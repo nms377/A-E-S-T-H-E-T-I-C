@@ -38,6 +38,10 @@
         game.load.audio('baddieSound', 'public/assets/vaporsplosion.mp3');
         game.load.audio('music1', 'public/assets/vaporwave_song.mp3');
         game.load.audio('music2', 'public/assets/aesthetic_final.mp3');
+        game.load.image('bustDavid', 'public/assets/bust_david.png');
+        game.load.image('fijiWater', 'public/assets/fiji_water.png');
+        game.load.audio('music3', 'public/assets/macintosh.mp3');
+
     };
 
     const create = _ => {
@@ -58,14 +62,18 @@
         // create soundfx
         laserSound = game.add.audio('laserSound');
         baddieSound = game.add.audio('baddieSound');
-        music1 = game.add.audio('music2');
+        music1 = game.add.audio('music3');
         music1.volume = 0.7;
         music1.play();
 
         // create obstacles
         platforms = game.add.physicsGroup();
+        bustDavid = game.add.physicsGroup();
+        fijiWater = game.add.physicsGroup();
         for (i = 0; i < NUMBER_OF_OBSTACLES; i++) {
             platforms.create(randomFix(game.world.randomX), game.world.randomY, 'platform');
+            bustDavid.create(randomFix(game.world.randomX), game.world.randomY, 'bustDavid');
+            fijiWater.create(randomFix(game.world.randomX), game.world.randomY, 'fijiWater');
         }
         platforms.setAll('body.immovable', true);
 
